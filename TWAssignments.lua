@@ -86,6 +86,13 @@ local twa_templates = {
         [7] = { "Circle", "-", "-", "-", "-", "-", "-" },
         [8] = { "Star", "-", "-", "-", "-", "-", "-" },
     },
+    ['harbinger'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
     ['gaar'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
@@ -96,6 +103,29 @@ local twa_templates = {
         [7] = { "Circle", "-", "-", "-", "-", "-", "-" },
         [8] = { "Star", "-", "-", "-", "-", "-", "-" },
         [9] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
+    ['deathtalon'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Moon", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+    },
+    ['technician'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Moon", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Adds", "-", "-", "-", "-", "-", "-" }
+    },
+    ['overseer'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Diamond", "-", "-", "-", "-", "-", "-" }
     },
     ['domo'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -151,6 +181,12 @@ local twa_templates = {
         [4] = { "Right", "-", "-", "-", "-", "-", "-" },
         [5] = { "Right", "-", "-", "-", "-", "-", "-" },
     },
+    ['anubisath'] = {
+        [1] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Star", "-", "-", "-", "-", "-", "-" }
+    },
     ['skeram'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Left", "-", "-", "-", "-", "-", "-" },
@@ -159,10 +195,25 @@ local twa_templates = {
         [5] = { "Left", "-", "-", "-", "-", "-", "-" },
         [6] = { "Right", "-", "-", "-", "-", "-", "-" },
     },
+    ['brainwasher'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Adds", "-", "-", "-", "-", "-", "-" },
+    },
+    ['warrior'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Samla", "-", "-", "-", "-", "-", "-" }
+    },
     ['bugtrio'] = {
         [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
         [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
         [3] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+    },
+    ['borer'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Adds", "-", "-", "-", "-", "-", "-" },
     },
     ['sartura'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -381,6 +432,8 @@ TWA.misc = {
     ['Adds'] = TWA.classColors['paladin'].c,
     ['BOSS'] = '|cffff3333',
     ['Enrage'] = '|cffff7777',
+    ['Utdrag'] = TWA.classColors['druid'].c,
+    ['Samla'] = TWA.classColors['warrior'].c,
     ['Wall'] = TWA.classColors['hunter'].c,
     ['Living'] = TWA.classColors['warrior'].c,
     ['Dead'] = TWA.classColors['druid'].c,
@@ -1394,7 +1447,7 @@ end
 
 function SpamRaid_OnClick()
 
-    ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID")
+    ChatThrottleLib:SendChatMessage("BULK", "TWA", "Assignment updatering: ", "RAID_WARNING")
 
     for _, data in next, TWA.data do
 
@@ -1580,6 +1633,14 @@ function buildTemplatesDropdown()
             dropdownItem = nil
 
             dropdownItem = {}
+            dropdownItem.text = "Harbinger"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'harbinger'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
             dropdownItem.text = "Majordomo"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'domo'
@@ -1615,9 +1676,33 @@ function buildTemplatesDropdown()
             dropdownItem = nil
 
             dropdownItem = {}
+            dropdownItem.text = "DeathTalon - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'deathtalon'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
             dropdownItem.text = "Lashlayer"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'lashlayer'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
+            dropdownItem.text = "Technician - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'technician'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
+            dropdownItem.text = "Overseer - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'overseer'
             dropdownItem.arg2 = false
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
@@ -1641,6 +1726,15 @@ function buildTemplatesDropdown()
 
         if UIDROPDOWNMENU_MENU_VALUE["key"] == 'aq40' then
 
+
+            dropdownItem = {}
+            dropdownItem.text = "Anubisath Sentinel - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'anubisath'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
             local dropdownItem = {}
             dropdownItem.text = "The Prophet Skeram"
             dropdownItem.func = TWA.loadTemplate
@@ -1649,10 +1743,37 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
+
+            dropdownItem = {}
+            dropdownItem.text = "Brainwasher - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'brainwasher'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+
+            dropdownItem = {}
+            dropdownItem.text = "Vekniss Warrior- trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'warrior'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
             dropdownItem = {}
             dropdownItem.text = "Bug Trio"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'bugtrio'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+
+            dropdownItem = {}
+            dropdownItem.text = "Vekniss Guardians - trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'borer'
             dropdownItem.arg2 = false
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
